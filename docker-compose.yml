@@ -1,0 +1,52 @@
+version: "3"
+
+services:
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - static_network
+    restart: always
+    depends_on:
+      - nuxt
+      - api
+
+  database:
+    image: postgres:11-alpine
+    ports:
+      - "5432:5432"
+    networks:
+      - static_network
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: bandsongs
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: bandsongs
+
+  api:
+    build: ./band-songs-api
+    networks:
+      - static_network
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    command: yarn start
+
+  nuxt:
+    build: ./band-songs
+    networks:
+      - static_network
+    restart: always
+    ports:
+      - "3000:3000"
+    command: yarn start
+
+networks:
+  static_network:
+
+volumes:
+  db_data:
