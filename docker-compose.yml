@@ -22,9 +22,9 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: bandsongs
-      POSTGRES_PASSWORD: test
-      POSTGRES_DB: bandsongs
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
 
   api:
     build: ./band-songs-api
@@ -34,7 +34,8 @@ services:
       - "8080:8080"
     depends_on:
       - database
-    command: yarn start
+    env_file: .env
+    # command: yarn start
 
   nuxt:
     build: ./band-songs
