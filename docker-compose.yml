@@ -21,10 +21,11 @@ services:
       - static_network
     volumes:
       - db_data:/var/lib/postgresql/data
+    env_file: .env
     environment:
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_DATABASE: ${DATABASE_NAME}
 
   api:
     build: ./band-songs-api
@@ -35,7 +36,6 @@ services:
     depends_on:
       - database
     env_file: .env
-    # command: yarn start
 
   nuxt:
     build: ./band-songs
@@ -44,7 +44,6 @@ services:
     restart: always
     ports:
       - "3000:3000"
-    command: yarn start
 
 networks:
   static_network:
