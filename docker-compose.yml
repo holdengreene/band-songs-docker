@@ -2,16 +2,11 @@ version: "3"
 
 services:
   nginx:
-    build: ./nginx
     ports:
       - "80:80"
       - "443:443"
     networks:
       - static_network
-    restart: always
-    depends_on:
-      - nuxt
-      - api
 
   database:
     image: postgres:11-alpine
@@ -21,6 +16,7 @@ services:
       - static_network
     volumes:
       - db_data:/var/lib/postgresql/data
+    restart: always
     env_file: .env
     environment:
       POSTGRES_USER: ${DATABASE_USER}
@@ -28,7 +24,6 @@ services:
       POSTGRES_DATABASE: ${DATABASE_NAME}
 
   api:
-    build: ./band-songs-api
     networks:
       - static_network
     ports:
@@ -37,13 +32,6 @@ services:
       - database
     env_file: .env
 
-  nuxt:
-    build: ./band-songs
-    networks:
-      - static_network
-    restart: always
-    ports:
-      - "3000:3000"
 
 networks:
   static_network:

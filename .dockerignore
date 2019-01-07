@@ -10,3 +10,7 @@ README.md
 .gitignore
 .prettierrc
 travis.yml
+babel.config.js
+coverage
+README.md
+LICENSE

@@ -1,0 +1,17 @@
+# This adds everything for local dev.
+# Auto added when docker-compose is run by itself
+
+version: "3"
+
+services:
+  nginx:
+    build: ./nginx/development
+    depends_on:
+      - api
+
+  api:
+    build:
+      context: ./band-songs-api
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./band-songs-api:/usr/src/api

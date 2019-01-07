@@ -1,0 +1,26 @@
+# Used for all production needs
+# Run UP: docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d
+# Run DOWN: docker-compose -f docker-compose.yml -f docker-compose.production.yml down -d
+
+version: "3"
+
+services:
+  nginx:
+    build: ./nginx
+    depends_on:
+      - nuxt
+      - api
+
+  api:
+    build: ./band-songs-api
+    environment:
+      NODE_ENV: production
+
+  nuxt:
+    build: ./band-songs
+    networks:
+      - static_network
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
