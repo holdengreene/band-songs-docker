@@ -15,7 +15,7 @@ services:
     networks:
       - static_network
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     restart: always
     env_file: .env
     environment:
@@ -37,4 +37,4 @@ networks:
   static_network:
 
 volumes:
-  db_data:
+  postgres_data:
